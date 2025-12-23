@@ -1,0 +1,213 @@
+/* Created By Bismaya. If you use this code or parts of it, please give credit to Bismaya as the original creator. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: #0a0a0a;
+    cursor: none;
+    min-height: 100vh;
+}
+
+canvas {
+    display: block;
+}
+
+.vhs-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.scanlines {
+    background: repeating-linear-gradient(0deg,
+            rgba(0, 0, 0, 0.15),
+            rgba(0, 0, 0, 0.15) 1px,
+            transparent 1px,
+            transparent 2px);
+}
+
+.noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 99;
+    opacity: 0.05;
+    animation: noise 0.2s steps(10) infinite;
+}
+
+@keyframes noise {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-5%, -5%);
+    }
+
+    20% {
+        transform: translate(5%, 5%);
+    }
+
+    30% {
+        transform: translate(-5%, 5%);
+    }
+
+    40% {
+        transform: translate(5%, -5%);
+    }
+
+    50% {
+        transform: translate(-5%, 0);
+    }
+
+    60% {
+        transform: translate(5%, 0);
+    }
+
+    70% {
+        transform: translate(0, 5%);
+    }
+
+    80% {
+        transform: translate(0, -5%);
+    }
+
+    90% {
+        transform: translate(5%, 5%);
+    }
+}
+
+.vhs-flicker {
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 0.97;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.98;
+    }
+}
+
+.color-aberration {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 98;
+    background: linear-gradient(90deg,
+            rgba(255, 0, 0, 0.03) 0%,
+            transparent 15%,
+            transparent 85%,
+            rgba(0, 255, 255, 0.03) 100%);
+}
+
+.footer {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    pointer-events: none;
+    text-align: center;
+}
+
+.footer-text {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: rgba(180, 180, 180, 0.6);
+    text-shadow: 0 0 10px rgba(100, 100, 100, 0.3);
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-text .char {
+    display: inline-block;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.footer-text .char.cracked {
+    animation: crack 0.1s ease-out forwards;
+}
+
+.footer-text .char.recovering {
+    animation: recover 0.5s ease-out forwards;
+}
+
+@keyframes crack {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--crack-x), var(--crack-y)) rotate(var(--crack-r));
+        opacity: 0.4;
+        color: #ff4444;
+        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000;
+    }
+}
+
+@keyframes recover {
+    0% {
+        transform: translate(var(--crack-x), var(--crack-y)) rotate(var(--crack-r));
+        opacity: 0.4;
+        color: #ff4444;
+    }
+
+    50% {
+        color: #44ff44;
+        text-shadow: 0 0 10px #00ff00;
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.6;
+        color: rgba(180, 180, 180, 0.6);
+        text-shadow: 0 0 10px rgba(100, 100, 100, 0.3);
+    }
+}
+
+.crack-fragment {
+    position: absolute;
+    pointer-events: none;
+    font-family: 'Courier New', monospace;
+    color: #ff4444;
+    text-shadow: 0 0 5px #ff0000;
+    animation: fragment-fall 0.8s ease-out forwards;
+}
+
+@keyframes fragment-fall {
+    0% {
+        opacity: 0.8;
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--frag-x), var(--frag-y)) rotate(var(--frag-r));
+    }
+}
